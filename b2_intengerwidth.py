@@ -25,36 +25,65 @@ def get_function_name(line):
 
 
 def GetEvery_Begin_End():
-    filein = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled5.c", encoding='utf-8')
-    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled6.txt","w", encoding='utf-8')
+    filein = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled9.c", encoding='utf-8')
+    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled10.txt","w", encoding='utf-8')
     prefile = preprocess(filein)
     prefile = prefile.split('\n')
     for line in prefile:
         fileout.write(line)
         fileout.write('\n')
     Vertexs = VertexJudge(prefile)
-    print(Vertexs)
-    FunctionName_BeginEnd, Suspicious_FunctionName_line =init_dics(prefile, Vertexs)
-    print(FunctionName_BeginEnd)
-    print(Suspicious_FunctionName_line)
+    # print(Vertexs)
+    # FunctionName_BeginEnd, Suspicious_FunctionName_line =init_dics(prefile, Vertexs)
+    # print(FunctionName_BeginEnd)
+    # print(Suspicious_FunctionName_line)
+    warningposition=GetEveryVariable(prefile)
+    print("Warning: These lines have the risk of intenger width overflow!")
+    print(warningposition)
     filein.close()
     fileout.close()
 
 
 # 获取函数中的每一个变量及其行数，行数存在相应的列表里，总体存在字典里。{"变量类型":{"变量名":[行数]}}
 def GetEveryVariable(tempfile):
-    name_list=['int','long','unsigned','short']
+    name_list=['short','int','long']
+    dic = {}
+    list = []
     for line in tempfile:
-        if any(name in line for name in name_list):
-            if ';' in line:
-
-
-
-
-
+        if 'main' not in line:
+            if any(name in line for name in name_list):
+                for i in name_list:
+                    if i in line:
+                        pre = line.rfind(i)
+                        later = line.rfind(';')
+                        # 这里的弊端是，只能存储那些每行定义一个变量的的情况，比如说： int i;
+                        # 但是其他的情况就太复杂了，比如int i,j,k;  int i=3,j=4; int i,j,k=3; i=4; j=5;这种。
+                        # 这个1代表的是int i;里面的空格
+                        dic[line[(pre + len(i) + 1):later]] = name_list.index(i)
+                        list.append(line[(pre + len(i) + 1):later])
+    # index指的是prefile的索引
+    index = 1
+    # print(dic)
+    # print(list)
+    warningposition = []
+    for line in tempfile:
+        #这个是试图排除任何一个keywords里面的函数，并且排除int i=0;这种定义和赋值一起出现的情况
+        if '=' in line and any(name in line for name in list) and 'if' not in line and 'for' not in line and 'while' not in line:
+            equal = line.rfind('=')
+            termi = line.rfind(';')
+            # 这个是不考虑=两边有空格的情况,这个left切片的开头是1 怀疑是因为缩进所以0是\t
+            left = line[1:equal-1]
+            right = line[equal+2:termi]
+            if left in list and right in list:
+                leftvalue=dic[left]
+                rightvalue=dic[right]
+                if leftvalue< rightvalue:
+                    warningposition.append(index)
+        index += 1
+    return warningposition
 
 # 对赋值进行检测，如果宽整形到窄整形转换出现，就提示存在宽度溢出可能。
-# 另一种想法，看敏感函数，然后再看敏感函数里的参数，然后在字典里寻找和找到宽窄整形转换。
+# 另一种想法，看敏感函数，然后再看敏感函数里的参数，然后在字典里寻找和找到宽窄整形转换。(感觉这个不应该考虑，复杂化了)
 def AssignmentDetect():
     pass
 
