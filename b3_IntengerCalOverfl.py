@@ -1,6 +1,6 @@
-# 没有查阅到更多相关的资料关于指针引用问题
-# 完成时间：2020/9/27。
-# 这个仅仅实现了，找到所有的null和NULL
+# 完成时间：2020/9/27，需要注意的样例就是，只接受int temp ;这样类似的定义。
+# 这个的受限还是在于：如果是定义和赋值在一起，那就难以判别，
+# 比如说unsigned short total = strlen(argv[1]) + strlen(argv[2]) + 1; 可以，但是如果 +换成* 会被我的指针判别机制导致无法识别。
 # 遍历一遍代码，获取所有函数名,用vertexs[]存储
 def VertexJudge(tempfile):
     vertexs = []
@@ -28,8 +28,8 @@ def get_function_name(line):
 
 
 def GetEvery_Begin_End():
-    filein = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\b5in.c", encoding='utf-8')
-    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\b5out.txt","w", encoding='utf-8')
+    filein = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\b3in.c", encoding='utf-8')
+    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\b3out.txt","w", encoding='utf-8')
     prefile = preprocess(filein)
     prefile = prefile.split('\n')
     for line in prefile:
@@ -41,21 +41,30 @@ def GetEvery_Begin_End():
     # print(FunctionName_BeginEnd)
     # print(Suspicious_FunctionName_line)
     warningposition=GetEveryCalLine(prefile)
-    print("Warning: These lines have the risk of Null pointer reference!")
+    print("Warning: These lines have the risk of intenger calculate overflow!")
     print(warningposition)
     filein.close()
     fileout.close()
 
 
-# 这个没什么好的想法。
+# 找到类似于样例里的敏感行
 def GetEveryCalLine(tempfile):
     linenum=0
-    WarningLine=[]
+    CalLine=[]
     for line in tempfile:
         linenum += 1
-        if 'null' in line or 'NULL' in line:
-            WarningLine.append(linenum)
-    return WarningLine
+        # 避免出现 char* buffer = (char*)malloc(total); 这种仍然被记入的情况, 但是myarray = malloc(len*sizeof(int));还会被计入
+        if ('char' in line) or ('int' in line) or ('long' in line) or ('short' in line) or ('float' in line) or (
+                'double' in line) or ('void' in line) or ('signed' in line) or ('bool' in line):
+            if '*' in line and 'sizeof' not in line:
+                continue
+        if '*' in line or '+' in line:
+            if '++' in line:
+                continue
+            # 常规的加法乘法运算 如a = b * c
+            if '=' in line:
+                CalLine.append(linenum)
+    return CalLine
 # 对赋值进行检测，如果宽整形到窄整形转换出现，就提示存在宽度溢出可能。
 # 另一种想法，看敏感函数，然后再看敏感函数里的参数，然后在字典里寻找和找到宽窄整形转换。(感觉这个不应该考虑，复杂化了)
 
