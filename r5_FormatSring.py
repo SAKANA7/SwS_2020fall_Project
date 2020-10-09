@@ -1,8 +1,8 @@
 # 存在%n的，以及存在格式化符号与printf中输出参数不一致的。
 # 2020/9/23 写完，但没有更复杂的样本来进行分析
-def find_formatstring():
-    filein = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled7.c", encoding='utf-8')
-    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled8.txt", "w", encoding='utf-8')
+def find_formatstring(address1):
+    filein = open(address1, encoding='utf-8')# untitled7
+    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\output.txt", "w", encoding='utf-8')
     prefile = preprocess(filein)
     prefile = prefile.split('\n')
     # line1用来存储%n情况，line2用来存储参数不匹配情况
@@ -24,14 +24,17 @@ def find_formatstring():
             temp2 = line[2].count(",")
             if temp1 != temp2:
                 suspicious_line2.append(index)
+    '''
     if len(suspicious_line1) != 0:
         print("存在%n参数的可疑行数有:")
         print (suspicious_line1)
     if len(suspicious_line2) != 0:
        print("存在参数不匹配的可疑行数有:")
        print(suspicious_line2)
+    '''
     filein.close()
     fileout.close()
+    return suspicious_line1,suspicious_line2
 
 
 def preprocess(file):
@@ -80,4 +83,4 @@ def typeexist(list, line):
     return False, False
 
 
-find_formatstring()
+# find_formatstring()

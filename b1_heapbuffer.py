@@ -1,5 +1,6 @@
 # 2020/9/23 感觉主体代码和栈溢出是一致的，区别只在于参数检测这一块吧，再考虑。
 # 遍历一遍代码，获取所有函数名以及开始行数,用vertexs[]和vertexs_line[]存储，是一一对应的
+
 def VertexJudge(tempfile):
     vertexs = []
     index = 0 # 获取行数的索引，从1开始
@@ -26,21 +27,26 @@ def get_function_name(line):
             return name
 
 
-def GetEvery_Begin_End():
-    filein = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled5.c", encoding='utf-8')
-    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled6.txt","w", encoding='utf-8')
+def GetEvery_Begin_End(address1):
+    filein = open(address1, encoding='utf-8')#
+    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\output.txt","w", encoding='utf-8')
     prefile = preprocess(filein)
     prefile = prefile.split('\n')
     for line in prefile:
         fileout.write(line)
         fileout.write('\n')
     Vertexs = VertexJudge(prefile)
-    print(Vertexs)
+    # print(Vertexs)
     FunctionName_BeginEnd, Suspicious_FunctionName_line =init_dics(prefile, Vertexs)
-    print(FunctionName_BeginEnd)
-    print(Suspicious_FunctionName_line)
+    # print(FunctionName_BeginEnd)
+    '''
+    for name, line in Suspicious_FunctionName_line.items():
+        print('Warning:We found the suspicious function "'+name+'" used in these line:')
+        print(line)
+    '''
     filein.close()
     fileout.close()
+    return Suspicious_FunctionName_line
 
 
 
@@ -154,4 +160,4 @@ def typeexist(list, line):
             return i, True
     return False, False
 
-GetEvery_Begin_End()
+# GetEvery_Begin_End()

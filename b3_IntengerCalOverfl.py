@@ -27,9 +27,9 @@ def get_function_name(line):
             return name
 
 
-def GetEvery_Begin_End():
-    filein = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\b3in.c", encoding='utf-8')
-    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\b3out.txt","w", encoding='utf-8')
+def GetEvery_Begin_End(address1):
+    filein = open(address1, encoding='utf-8')# b3in
+    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\output.txt","w", encoding='utf-8')
     prefile = preprocess(filein)
     prefile = prefile.split('\n')
     for line in prefile:
@@ -41,8 +41,9 @@ def GetEvery_Begin_End():
     # print(FunctionName_BeginEnd)
     # print(Suspicious_FunctionName_line)
     warningposition=GetEveryCalLine(prefile)
-    print("Warning: These lines have the risk of intenger calculate overflow!")
-    print(warningposition)
+    # print("Warning: These lines have the risk of intenger calculate overflow!")
+    # print(warningposition)
+    return warningposition
     filein.close()
     fileout.close()
 
@@ -178,4 +179,4 @@ def typeexist(list, line):
             return i, True
     return False, False
 
-GetEvery_Begin_End()
+# GetEvery_Begin_End()

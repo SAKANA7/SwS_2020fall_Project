@@ -1,3 +1,4 @@
+# 完成时间：2020/9/26，需要注意的样例就是，只接受int temp ;这样类似的定义。
 # 遍历一遍代码，获取所有函数名,用vertexs[]存储
 def VertexJudge(tempfile):
     vertexs = []
@@ -24,9 +25,9 @@ def get_function_name(line):
             return name
 
 
-def GetEvery_Begin_End():
-    filein = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled9.c", encoding='utf-8')
-    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled10.txt","w", encoding='utf-8')
+def GetEvery_Begin_End(address1):
+    filein = open(address1, encoding='utf-8') # untitled9
+    fileout = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\output.txt","w", encoding='utf-8')
     prefile = preprocess(filein)
     prefile = prefile.split('\n')
     for line in prefile:
@@ -38,8 +39,9 @@ def GetEvery_Begin_End():
     # print(FunctionName_BeginEnd)
     # print(Suspicious_FunctionName_line)
     warningposition=GetEveryVariable(prefile)
-    print("Warning: These lines have the risk of intenger width overflow!")
-    print(warningposition)
+    # print("Warning: These lines have the risk of intenger width overflow!")
+    # print(warningposition)
+    return warningposition
     filein.close()
     fileout.close()
 
@@ -84,8 +86,8 @@ def GetEveryVariable(tempfile):
 
 # 对赋值进行检测，如果宽整形到窄整形转换出现，就提示存在宽度溢出可能。
 # 另一种想法，看敏感函数，然后再看敏感函数里的参数，然后在字典里寻找和找到宽窄整形转换。(感觉这个不应该考虑，复杂化了)
-def AssignmentDetect():
-    pass
+# def AssignmentDetect():
+#    pass
 
 
 
@@ -198,4 +200,4 @@ def typeexist(list, line):
             return i, True
     return False, False
 
-GetEvery_Begin_End()
+# GetEvery_Begin_End()

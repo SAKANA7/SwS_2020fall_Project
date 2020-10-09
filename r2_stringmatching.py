@@ -2,11 +2,11 @@
 import ply.lex as lex
 
 # filein1是要检查的，filein2是基准的，这样能相对降低错误率，但实际上错误率还是很高的，因为比如return，for这种语句一般每个程序都会有。
-def stringmatching():
-    filein1 = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled3.c", encoding='utf-8')
+def stringmatching(address1,address2):
+    filein1 = open(address1, encoding='utf-8')
     prefile1 = preprocess(filein1)
     lexfile1 = mylex(prefile1)
-    filein2 = open(r"C:\Users\Lenovo\Desktop\SoftwareSecurity_2020fall_Project\Untitled1.c", encoding='utf-8')
+    filein2 = open(address2, encoding='utf-8')
     prefile2 = preprocess(filein2)
     lexfile2 = mylex(prefile2)
     result = calculate(lexfile1, lexfile2)
@@ -201,4 +201,4 @@ def calculate(lexfile1, lexfile2):
     return similarities
 
 
-stringmatching()
+# stringmatching('C:/Users/Lenovo/Desktop/SoftwareSecurity_2020fall_Project/Untitled3.c','C:/Users/Lenovo/Desktop/SoftwareSecurity_2020fall_Project/Untitled4.c')
