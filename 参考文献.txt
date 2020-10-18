@@ -1,0 +1,21 @@
+【译】Python Lex Yacc手册：https://www.cnblogs.com/P_Chou/p/python-lex-yacc.html
+PLY document：http://www.dabeaz.com/ply/ply.html#ply_nn4
+Python GUI Examples (Tkinter Tutorial)：https://likegeeks.com/python-gui-examples-tkinter-tutorial/
+《Tkinter GUI Application Development Cookbook - 2018》
+python官方文档：17.2. multiprocessing — 基于进程的并行：https://docs.python.org/zh-cn/3.6/library/multiprocessing.html
+python并发编程之多进程(实践篇)：https://www.cnblogs.com/jiangfan95/p/11439207.html
+networkx官方文档：https://networkx.github.io/documentation/stable/tutorial.html
+trick1：检测字符串中是否含有列表中的元素：
+          https://stackoverflow.com/questions/6531482/how-to-check-if-a-string-contains-an-element-from-a-list-in-python
+          https://www.geeksforgeeks.org/python-test-if-string-contains-element-from-list/
+图结构生成：https://stackoverflow.com/questions/11869644/implementing-a-directed-graph-in-python
+	   https://www.python.org/doc/essays/graphs/
+	   https://stackoverflow.com/questions/19472530/representing-graphs-data-structure-in-python
+空指针引用：CWE476和CWE690的翻译：
+	   https://blog.csdn.net/plstudio1/article/details/89788494
+	   https://blog.csdn.net/plstudio1/article/details/90577771
+图结构的相似性：networkx文档：
+	   https://networkx.github.io/documentation/stable/reference/algorithms/generated/networkx.algorithms.similarity.optimize_graph_edit_distance.html?highlight=optimize#networkx.algorithms.similarity.optimize_graph_edit_distance
+	   https://stackoverflow.com/questions/9767773/calculating-simrank-using-networkx
+	   The edit distance in graphs Ryan Martin：
+	   http://orion.math.iastate.edu/rymartin/talks/EditDist/editIITcolloq.pdf
